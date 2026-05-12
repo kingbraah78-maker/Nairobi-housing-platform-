@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jamuhuri Homes — Find Your Space in Jamuhuri</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #c0392b;
+    --dark-red: #922b21;
+    --black: #0d0d0d;
+    --off-white: #f9f6f1;
+    --warm-gray: #e8e2d9;
+    --muted: #7a7068;
+    --accent: #d4a843;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--off-white);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  nav {
+    background: var(--black);
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { font-family: 'Cormorant Garamond', serif; color: #fff; font-size: 1.55rem; letter-spacing: 1px; }
+  .logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.83rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta { background: var(--red); color: #fff !important; padding: 8px 22px; border-radius: 6px; }
+
+  .hero {
+    background: var(--black);
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 5% 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-text {
+    position: absolute; bottom: -20px; right: -10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(100px, 20vw, 200px);
+    color: rgba(255,255,255,0.03);
+    font-weight: 700; line-height: 1;
+    user-select: none; pointer-events: none;
+  }
+  .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
+  .hero-eyebrow span { font-size: 0.72rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); }
+  .hero-line { width: 40px; height: 1px; background: var(--accent); }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    color: #fff; line-height: 1.08; max-width: 700px;
+    animation: fadeUp 0.7s 0.1s ease both; font-weight: 600;
+  }
+  .hero h1 em { color: var(--red); font-style: italic; }
+  .hero-sub {
+    color: rgba(255,255,255,0.5); font-size: 1rem; max-width: 460px;
+    margin: 22px 0 44px; line-height: 1.75;
+    animation: fadeUp 0.7s 0.2s ease both; font-weight: 300;
+  }
+  .price-pills { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeUp 0.7s 0.3s ease both; margin-bottom: 44px; }
+  .pill {
+    border: 1px solid rgba(255,255,255,0.15); border-radius: 50px;
+    padding: 10px 22px; color: #fff; font-size: 0.82rem; font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+    transition: border-color 0.2s, background 0.2s; cursor: default;
+  }
+  .pill:hover { border-color: var(--red); background: rgba(192,57,43,0.1); }
+  .pill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+  .pill-dot.gold { background: var(--accent); }
+  .pill-dot.white { background: #fff; }
+  .hero-stats {
+    display: flex; gap: 48px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 32px; flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: #fff; font-weight: 700; line-height: 1; }
+  .stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; margin-top: 4px; }
+
+  section { padding: 80px 5%; }
+  .sec-eyebrow { font-size: 0.7rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+  .sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 600; color: var(--black); margin-bottom: 36px; }
+  .sec-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 36px; flex-wrap: wrap; gap: 16px; }
+  .view-all { font-size: 0.82rem; font-weight: 500; color: var(--red); text-decoration: none; border-bottom: 1px solid var(--red); padding-bottom: 2px; }
+
+  .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; }
+  .tab {
+    padding: 9px 22px; border-radius: 6px; border: 1px solid var(--warm-gray);
+    background: #fff; font-size: 0.82rem; font-weight: 500; cursor: pointer;
+    transition: all 0.2s; font-family: 'Outfit', sans-serif; color: var(--black);
+  }
+  .tab.active, .tab:hover { background: var(--black); color: #fff; border-color: var(--black); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+
+  .card {
+    background: #fff; border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--warm-gray);
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; cursor: pointer;
+  }
+  .card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,0.1); border-color: transparent; }
+  .card-media { position: relative; overflow: hidden; height: 210px; }
+  .card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .card:hover .card-media img { transform: scale(1.07); }
+
+  .badge { position: absolute; top: 14px; left: 14px; padding: 5px 13px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .badge-bed { background: var(--black); color: #fff; }
+  .badge-1br { background: var(--red); color: #fff; }
+  .badge-2br { background: var(--accent); color: var(--black); }
+
+  .fav { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; background: rgba(255,255,255,0.92); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; border: none; cursor: pointer; transition: transform 0.2s; }
+  .fav:hover { transform: scale(1.1); }
+
+  .avail-tag { position: absolute; bottom: 12px; right: 12px; background: rgba(255,255,255,0.92); font-size: 0.68rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; color: #1a8a3c; letter-spacing: 0.5px; }
+  .avail-tag.taken { color: var(--red); }
+
+  .card-body { padding: 20px 22px 22px; }
+  .card-loc { font-size: 0.72rem; color: var(--muted); margin-bottom: 5px; display: flex; align-items: center; gap: 4px; font-weight: 500; }
+  .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 700; color: var(--black); margin-bottom: 12px; line-height: 1.3; }
+  .features { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+  .feat { font-size: 0.75rem; color: var(--muted); background: var(--off-white); padding: 4px 10px; border-radius: 4px; display: flex; align-items: center; gap: 4px; }
+  .card-foot { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--warm-gray); padding-top: 14px; }
+  .price { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; color: var(--red); }
+  .price sub { font-family: 'Outfit', sans-serif; font-size: 0.72rem; color: var(--muted); font-weight: 400; vertical-align: baseline; }
+  .contact-btn { background: var(--black); color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif; transition: background 0.2s; }
+  .contact-btn:hover { background: var(--red); }
+
+  .map-strip { background: var(--black); padding: 60px 5%; display: flex; align-items: center; gap: 60px; flex-wrap: wrap; }
+  .map-info { flex: 1; min-width: 260px; }
+  .map-info .sec-eyebrow { color: var(--accent); }
+  .map-info .sec-title { color: #fff; margin-bottom: 16px; }
+  .map-info p { color: rgba(255,255,255,0.5); font-size: 0.88rem; line-height: 1.75; max-width: 380px; }
+  .map-landmarks { margin-top: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .landmark { display: flex; align-items: center; gap: 12px; font-size: 0.82rem; color: rgba(255,255,255,0.6); }
+  .landmark-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .map-visual { flex: 1; min-width: 280px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 30px; text-align: center; font-size: 0.82rem; color: rgba(255,255,255,0.3); }
+  .map-visual .map-pin { font-size: 3rem; margin-bottom: 10px; }
+  .map-visual strong { display: block; color: rgba(255,255,255,0.7); font-size: 1rem; margin-bottom: 6px; }
+
+  .process-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+  .process-card { background: #fff; border: 1px solid var(--warm-gray); border-radius: 14px; padding: 28px 24px; transition: border-color 0.2s, transform 0.2s; }
+  .process-card:hover { border-color: var(--red); transform: translateY(-4px); }
+  .step-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--warm-gray); font-weight: 700; line-height: 1; margin-bottom: 12px; }
+  .process-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+  .process-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.65; }
+
+  .cta { background: var(--red); padding: 80px 5%; text-align: center; }
+  .cta h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); color: #fff; margin-bottom: 12px; font-weight: 600; }
+  .cta p { color: rgba(255,255,255,0.75); margin-bottom: 32px; font-size: 0.92rem; }
+  .cta-btn { display: inline-block; background: #fff; color: var(--red); padding: 14px 40px; border-radius: 6px; font-weight: 700; font-size: 0.92rem; text-decoration: none; font-family: 'Outfit', sans-serif; transition: transform 0.2s; }
+  .cta-btn:hover { transform: scale(1.04); }
+
+  footer { background: var(--black); padding: 28px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; color: #fff; font-size: 1.2rem; }
+  .footer-logo span { color: var(--red); }
+  footer p { color: rgba(255,255,255,0.35); font-size: 0.75rem; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .hero h1 { font-size: 2.6rem; }
+    .hero-stats { gap: 24px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Jamuhuri<span>Homes</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Bedsitters</a></li>
+    <li><a href="#">1 Bedroom</a></li>
+    <li><a href="#">2 Bedroom</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#" class="nav-cta">List Your Unit</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg-text">JAMUHURI</div>
+  <div class="hero-eyebrow">
+    <div class="hero-line"></div>
+    <span>Jamuhuri Estate, Nairobi</span>
+  </div>
+  <h1>Rent a Home<br>in <em>Jamuhuri</em><br>with Confidence</h1>
+  <p class="hero-sub">Verified rental listings exclusively in Jamuhuri Estate. Bedsitters, 1-bedroom and 2-bedroom units — all at honest, fixed prices. No agents. No hidden fees.</p>
+
+  <div class="price-pills">
+    <div class="pill"><div class="pill-dot"></div> Bedsitter — Ksh 18,000/mo</div>
+    <div class="pill"><div class="pill-dot gold"></div> 1 Bedroom — Ksh 22,000/mo</div>
+    <div class="pill"><div class="pill-dot white"></div> 2 Bedroom — Ksh 45,000/mo</div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Active Listings</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Jamuhuri Only</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Agent Fees</div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-header">
+    <div>
+      <div class="sec-eyebrow">Available Now</div>
+      <div class="sec-title">Jamuhuri Listings</div>
+    </div>
+    <a href="#" class="view-all">View all →</a>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="tab active" onclick="filterCards('all', this)">All Units</button>
+    <button class="tab" onclick="filterCards('bedsitter', this)">Bedsitters</button>
+    <button class="tab" onclick="filterCards('1br', this)">1 Bedroom</button>
+    <button class="tab" onclick="filterCards('2br', this)">2 Bedroom</button>
+    <button class="tab" onclick="filterCards('available', this)">Available Now</button>
+  </div>
+
+  <div class="grid" id="listings">
+
+    <div class="card" data-type="bedsitter" data-status="available">
+      <div class="card-media">
+        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80" alt="Bedsitter">
+        <span class="badge badge-bed">Bedsitter</span>
+        <button class="fav">🤍</button>
+        <div class="avail-tag">● Available</div>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">📍 Jamuhuri Estate, Block A</div>
+        <div class="card-title">Neat Self-Contained Bedsitter</div>
+        <div class="features">
+          <span class="feat">🛏️ 1 Room</span>
+          <span class="feat">🚿 En-suite</span>
+          <span class="feat">⚡ 24hr Power</span>
+          <span class="feat">💧 Running Water</span>
+        </div>
+        <div class="card-foot">
+          <div class="price">Ksh 18,000 <sub>/month</sub></div>
+          <button class="contact-btn">Contact</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-type="1br" data-status="available">
+      <div class="card-media">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80" alt="1 Bedroom">
+        <span class="badge badge-1br">1 Bedroom</span>
+        <button class="fav">🤍</button>
+        <div class="avail-tag">● Available</div>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">📍 Jamuhuri Estate, Block B</div>
+        <div class="card-title">Spacious 1BR with Separate Kitchen</div>
+        <div class="features">
+          <span class="feat">🛏️ 1 Bed</span>
+          <span class="feat">🍳 Kitchen</span>
+          <span class="feat">🚿 En-suite</span>
+          <span class="feat">🅿️ Parking</span>
+        </div>
+        <div class="card-foot">
+          <div class="price">Ksh 22,000 <sub>/month</sub></div>
+          <button class="contact-btn">Contact</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-type="2br" data-status="available">
+      <div class="card-media">
+        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80" alt="2 Bedroom">
+        <span class="badge badge-2br">2 Bedroom</span>
+        <button class="fav">🤍</button>
+        <div class="avail-tag">● Available</div>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">📍 Jamuhuri Estate, Block C</div>
+        <div class="card-title">2BR Family Unit — Ground Floor</div>
+        <div class="features">
+          <span class="feat">🛏️ 2 Beds</span>
+          <span class="feat">🍳 Kitchen</span>
+          <span class="feat">🛁 2 Bathrooms</span>
+          <span class="feat">🌿 Yard Access</span>
+        </div>
+        <div class="card-foot">
+          <div class="price">Ksh 45,000 <sub>/month</sub></div>
+          <button class="contact-btn">Contact</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-type="bedsitter" data-status="taken">
+      <div class="card-media">
+        <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=600&q=80" alt="Bedsitter">
+        <span class="badge badge-bed">Bedsitter</span>
+        <button class="fav">🤍</button>
+        <div class="avail-tag taken">● Taken</div>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">📍 Jamuhuri Estate, Block A</div>
+        <div class="card-title">Tiled Bedsitter, Upper Floor</div>
+        <div class="features">
+          <span class="feat">🛏️ 1 Room</span>
+          <span class="feat">🚿 En-suite</span>
+          <span class="feat">🔒 Secure Gate</span>
+        </div>
+        <div class="card-foot">
+          <div class="price">Ksh 18,000 <sub>/month</sub></div>
+          <button class="contact-btn" disabled style="background:#ccc;cursor:not-allowed;">Taken</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-type="1br" data-status="available">
+      <div class="card-media">
+        <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&q=80" alt="1 Bedroom">
+        <span class="badge badge-1br">1 Bedroom</span>
+        <button class="fav">🤍</button>
+        <div class="avail-tag">● Available</div>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">📍 Jamuhuri Estate, Block D</div>
+        <div class="card-title">Modern 1BR, Recently Renovated</div>
+        <div class="features">
+          <span class="feat">🛏️ 1 Bed</span>
+          <span class="feat">🍳 Open Kitchen</span>
+          <span class="feat">⚡ Prepaid Meter</span>
+          <span class="feat">💧 Borehole</span>
+        </div>
+        <div class="card-foot">
+          <div class="price">Ksh 22,000 <sub>/month</sub></div>
+          <button class="contact-btn">Contact</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-type="2br" data-status="available">
+      <div class="card-media">
+        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80" alt="2 Bedroom">
+        <span class="badge badge-2br">2 Bedroom</span>
+        <button class="fav">🤍</button>
+        <div class="avail-tag">● Available</div>
+      </div>
+      <div class="card-body">
+        <div class="card-loc">📍 Jamuhuri Estate, Block B</div>
+        <div class="card-title">2BR Upper Unit, Great Ventilation</div>
+        <div class="features">
+          <span class="feat">🛏️ 2 Beds</span>
+          <span class="feat">🍳 Kitchen</span>
+          <span class="feat">🅿️ Parking</span>
+          <span class="feat">🔒 Gated</span>
+        </div>
+        <div class="card-foot">
+          <div class="price">Ksh 45,000 <sub>/month</sub></div>
+          <button class="contact-btn">Contact</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="map-strip">
+  <div class="map-info">
+    <div class="sec-eyebrow">Location</div>
+    <div class="sec-title">Why Jamuhuri?</div>
+    <p>Jamuhuri Estate is a peaceful, well-established residential area in Nairobi — close to key amenities, with excellent transport links and a strong community feel.</p>
+    <div class="map-landmarks">
+      <div class="landmark"><div class="landmark-dot"></div> Near Jamuhuri Park & Sports Ground</div>
+      <div class="landmark"><div class="landmark-dot"></div> Minutes from Ngong Road</div>
+      <div class="landmark"><div class="landmark-dot"></div> Close to Lang'ata Road</div>
+      <div class="landmark"><div class="landmark-dot"></div> Easy matatu access to CBD</div>
+      <div class="landmark"><div class="landmark-dot"></div> Shops, schools & hospitals nearby</div>
+    </div>
+  </div>
+  <div class="map-visual">
+    <div class="map-pin">📍</div>
+    <strong>Jamuhuri Estate</strong>
+    Nairobi, Kenya
+    <br><br>
+    <a href="https://maps.google.com/?q=Jamuhuri+Estate+Nairobi" target="_blank" style="color:var(--accent);font-size:0.8rem;font-weight:600;">Open in Google Maps →</a>
+  </div>
+</div>
+
+<section style="background:#fff;">
+  <div class="sec-eyebrow">Simple Process</div>
+  <div class="sec-title">How to Rent</div>
+  <div class="process-grid">
+    <div class="process-card">
+      <div class="step-num">01</div>
+      <h3>Browse Listings</h3>
+      <p>Filter by unit type — bedsitter, 1BR, or 2BR. All listings are in Jamuhuri Estate only.</p>
+    </div>
+    <div class="process-card">
+      <div class="step-num">02</div>
+      <h3>Contact Landlord</h3>
+      <p>Reach out directly — no agents, no extra fees. Talk to the owner and arrange a viewing.</p>
+    </div>
+    <div class="process-card">
+      <div class="step-num">03</div>
+      <h3>View the Unit</h3>
+      <p>Visit the property at a time that suits you and confirm it matches before committing.</p>
+    </div>
+    <div class="process-card">
+      <div class="step-num">04</div>
+      <h3>Sign & Move In</h3>
+      <p>Agree on deposit and move-in date, sign your tenancy agreement, and you're home.</p>
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <h2>Have a Unit in Jamuhuri?</h2>
+  <p>List your property for free and reach hundreds of tenants searching in Jamuhuri right now.</p>
+  <a href="#" class="cta-btn">List Your Unit — It's Free</a>
+</div>
+
+<footer>
+  <div class="footer-logo">Jamuhuri<span>Homes</span></div>
+  <p>© 2026 JamuhiriHomes. Exclusively serving Jamuhuri Estate, Nairobi.</p>
+</footer>
+
+<script>
+  function filterCards(type, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.card').forEach(card => {
+      const matchType = type === 'all' || card.dataset.type === type;
+      const matchAvail = type !== 'available' || card.dataset.status === 'available';
+      card.style.display = (matchType && matchAvail) ? 'block' : 'none';
+    });
+  }
+  document.querySelectorAll('.fav').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      btn.textContent = btn.textContent === '🤍' ? '❤️' : '🤍';
+    });
+  });
+</script>
+</body>
+</html>
